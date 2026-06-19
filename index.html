@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<meta name="ebb-build" content="CH5-1-formal-domination-audit-lab" />
-<title>CH5-1 Formal Domination Audit Lab — EBB Fall 2026</title>
+<meta name="ebb-build" content="CH5-2-fall2026-eco2-route-selector-navigator-export" />
+<title>CH5-2 Formal Domination Audit Lab — EBB Fall 2026</title>
 <style>
 :root{
   --bg:#f6f8fb; --panel:#ffffff; --ink:#142033; --muted:#5b6578; --line:#d9e3ee;
@@ -86,6 +86,65 @@ th{background:#eef8fb;color:#15384b}
 .sticky-status{margin-left:auto;color:#355070;font-size:.9rem}
 .toc a{display:inline-block;margin:.18rem .28rem .18rem 0;padding:.35rem .55rem;border:1px solid var(--line);border-radius:999px;background:white;text-decoration:none;color:#17384d;font-size:.9rem}
 footer{background:#e8f0f5;padding:1.6rem 0;color:#263246}
+
+/* CH5-ECO-2 Route Selector + Navigator Export Patch */
+.eco-route-panel {
+  border-color: rgba(183,121,31,.35);
+  background: linear-gradient(135deg, rgba(183,121,31,.075), rgba(31,111,120,.045));
+}
+.eco-route-intro { color: var(--muted); max-width: 920px; }
+.eco-route-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .8rem;
+  margin: .8rem 0;
+}
+.eco-route-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: .55rem;
+  align-items: start;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: .9rem;
+  background: #fff;
+  cursor: pointer;
+  min-height: 148px;
+}
+.eco-route-card input { margin-top: .2rem; width: auto; }
+.eco-route-card strong { display: block; color: #15384b; }
+.eco-route-card span {
+  grid-column: 2;
+  color: var(--muted);
+  font-size: .92rem;
+  line-height: 1.45;
+}
+.eco-route-card:has(input:checked) {
+  border-color: rgba(183,121,31,.55);
+  background: #fff7ed;
+  box-shadow: 0 1px 7px rgba(183,121,31,.10);
+}
+.eco-route-note, .eco-geo-tools {
+  margin-top: .8rem;
+  border-left: 5px solid var(--gold);
+  padding: .85rem 1rem;
+  background: #fff7ed;
+  border-radius: 14px;
+  color: #263246;
+}
+.eco-geo-tools[hidden] { display: none; }
+.eco-json-note {
+  border-left: 5px solid var(--accent);
+  background: var(--soft);
+  border-radius: 14px;
+  padding: .8rem 1rem;
+  margin: .8rem 0;
+}
+@media (max-width: 800px) {
+  .eco-route-grid { grid-template-columns: 1fr; }
+  .eco-route-card { min-height: auto; }
+}
+
 @media print{
   .toolbar,.no-print,button{display:none!important}
   body{background:white}
@@ -99,7 +158,7 @@ footer{background:#e8f0f5;padding:1.6rem 0;color:#263246}
 <body>
 <header>
   <div class="wrap">
-    <div class="kicker">Ethics Beyond Boundaries · Chapter 5 Workbook App · CH5-1</div>
+    <div class="kicker">Ethics Beyond Boundaries · Chapter 5 Workbook App · CH5-2 ECO-2</div>
     <h1>Formal Domination Audit Lab</h1>
     <p class="subtitle">A hands-on workbook for applying Chapter 5: social contract, justice, capabilities, care ethics, functional equivalence, and the Adaptive Moral Commonwealth to a real institution, policy, classroom, workplace, or community arrangement.</p>
     <div class="principle"><strong>Core idea:</strong> A system may look formally fair, stable, efficient, or coherent while still suppressing lived agency, masking capability gaps, depending on invisible care labor, or achieving order by making some people carry the contradiction.</div>
@@ -123,6 +182,34 @@ footer{background:#e8f0f5;padding:1.6rem 0;color:#263246}
     <h2>Start Here</h2>
     <p>This lab is designed for a specific arrangement: a school policy, workplace procedure, healthcare system, public service, family structure, classroom rule, algorithmic ranking system, neighborhood institution, or community practice.</p>
     <div class="notice"><strong>Privacy first:</strong> Your writing stays in this browser unless you export, copy, print, or submit it. The Canvas Summary is a selected summary, not your full private workbook.</div>
+
+    <section class="card eco-route-panel" id="ch5-route-panel">
+      <h2>Choose Your Case Route</h2>
+      <p class="eco-route-intro">This lab can be used with your own institution or with a public case. Choose the route that fits your learning purpose. You can change routes before exporting.</p>
+      <div class="eco-route-grid" role="radiogroup" aria-label="Chapter 5 case route">
+        <label class="eco-route-card">
+          <input type="radio" name="ch5CaseRoute" value="student_selected" checked />
+          <strong>Route A — My Institution or Arrangement</strong>
+          <span>Use a school policy, workplace procedure, healthcare system, public service, family structure, classroom rule, algorithmic system, neighborhood institution, or community practice.</span>
+        </label>
+        <label class="eco-route-card">
+          <input type="radio" name="ch5CaseRoute" value="geo_florida_public_case" />
+          <strong>Route B — Public Case: GEO Florida</strong>
+          <span>Use the GEO Florida EECSL case as a public justice-system example. Stay within public evidence and do not enter private identifying details.</span>
+        </label>
+        <label class="eco-route-card">
+          <input type="radio" name="ch5CaseRoute" value="instructor_demo_case" />
+          <strong>Route C — Instructor Demonstration Case</strong>
+          <span>Use the case supplied by your instructor for shared class demonstration or discussion.</span>
+        </label>
+      </div>
+      <div id="ch5-route-note" class="eco-route-note"><strong>Privacy first:</strong> your writing stays in this browser unless you export, copy, print, submit, or share it. The Canvas Summary is selected academic text, not the full private workbook.</div>
+      <div id="ch5-geo-tools" class="eco-geo-tools" hidden>
+        <p><strong>Responsibility boundary:</strong> when using GEO Florida, analyze ownership, governance, incentives, measurement, repair access, and capability conditions. Do not blame frontline workers, incarcerated people, families, or individual staff members.</p>
+        <button type="button" id="ch5-use-geo-public-case">Use GEO Florida Public Case</button>
+        <a class="btn secondary" href="https://rmertzman-tech.github.io/empirical-ethics-case-simulation-library-/geo-florida-prison.html" target="_blank" rel="noopener">Open GEO Florida EECSL Case</a>
+      </div>
+    </section>
     <div class="toc">
       <a href="#setup">Setup</a><a href="#ct">CT Mini-Lab</a><a href="#classical">Classical Fears</a><a href="#rawls">Rawls</a><a href="#nozick">Nozick</a><a href="#capabilities">Capabilities</a><a href="#care">Care</a><a href="#functional">Functional Equivalence</a><a href="#formal">Formal Domination</a><a href="#amc">AMC</a><a href="#synthesis">Synthesis</a>
     </div>
@@ -351,6 +438,7 @@ footer{background:#e8f0f5;padding:1.6rem 0;color:#263246}
   <section id="synthesis" class="card">
     <h2>11. Synthesis Dashboard and Canvas Summary</h2>
     <p>The dashboard is a reflection aid, not a grade. It helps you name the kind of problem you are seeing.</p>
+    <div class="eco-json-note"><strong>Navigator output:</strong> Export JSON creates a Fall 2026 Chapter Workbook file for Navigator import. It uses the canonical <code>chapter_workbook</code> schema and stores the Chapter 5 work product under <code>payload.chapter_specific</code> and <code>payload.reflection_prep</code>.</div>
     <div class="scorebox">
       <div class="score"><strong id="riskScore">0</strong><span class="small">Structural Risk</span></div>
       <div class="score"><strong id="repairScore">0</strong><span class="small">Repair Access</span></div>
@@ -377,7 +465,11 @@ footer{background:#e8f0f5;padding:1.6rem 0;color:#263246}
 </footer>
 
 <script>
-const STORAGE_KEY = 'ebb_ch5_formal_domination_audit_lab_v1';
+const STORAGE_KEY = 'ebb_ch5_formal_domination_audit_lab_v2';
+const LEGACY_STORAGE_KEY = 'ebb_ch5_formal_domination_audit_lab_v1';
+const CH5_NAV_SCHEMA_VERSION = 'EBB-Fall-2026-v1.2';
+const CH5_SOURCE_APP = 'CH5-FORMAL-DOMINATION-AUDIT-LAB';
+const CH5_CHAPTER_ENTRY_KEY = 'chapter-5-formal-domination-audit';
 const CAPABILITIES = [
   'Life','Bodily Health','Bodily Integrity','Senses, Imagination, Thought','Emotions',
   'Practical Reason','Affiliation','Play','Control Over Environment (Political)','Control Over Environment (Material)'
@@ -386,6 +478,153 @@ const CAPABILITIES = [
 function qs(sel){ return document.querySelector(sel); }
 function qsa(sel){ return Array.from(document.querySelectorAll(sel)); }
 function setStatus(msg){ qs('#status').textContent = msg; }
+
+
+function getFieldValue(key){
+  const el = document.querySelector(`[data-field="${key}"]`);
+  if(!el) return '';
+  if(el.type === 'checkbox') return el.checked;
+  return String(el.value || '').trim();
+}
+
+function setFieldValue(key, value){
+  const el = document.querySelector(`[data-field="${key}"]`);
+  if(!el) return;
+  if(el.type === 'checkbox') el.checked = Boolean(value);
+  else el.value = value == null ? '' : String(value);
+  el.dispatchEvent(new Event('input', {bubbles:true}));
+  el.dispatchEvent(new Event('change', {bubbles:true}));
+}
+
+function selectedCaseRoute(){
+  const checked = document.querySelector('input[name="ch5CaseRoute"]:checked');
+  return checked ? checked.value : 'student_selected';
+}
+
+function setSelectedCaseRoute(route){
+  const el = document.querySelector(`input[name="ch5CaseRoute"][value="${route}"]`);
+  if(el) el.checked = true;
+  syncCaseRouteUi(false);
+}
+
+function caseRouteLabel(route){
+  if(route === 'geo_florida_public_case') return 'GEO Florida — EECSL public case';
+  if(route === 'instructor_demo_case') return 'Instructor demonstration case';
+  return getFieldValue('arrangement') || 'Student-selected institution or arrangement';
+}
+
+function publicCaseUsed(route){
+  return route === 'geo_florida_public_case' ? 'geo_florida_eecsl' : false;
+}
+
+function syncCaseRouteUi(save=true){
+  const route = selectedCaseRoute();
+  const tools = document.getElementById('ch5-geo-tools');
+  if(tools) tools.hidden = route !== 'geo_florida_public_case';
+  const note = document.getElementById('ch5-route-note');
+  if(note){
+    if(route === 'geo_florida_public_case') note.innerHTML = '<strong>Public case route:</strong> use only public evidence from the GEO Florida EECSL page. Keep the analysis at the level of governance, incentives, capability conditions, and repair architecture.';
+    else if(route === 'instructor_demo_case') note.innerHTML = '<strong>Instructor case route:</strong> use the case supplied by your instructor and avoid entering identifying private details.';
+    else note.innerHTML = '<strong>Privacy first:</strong> your writing stays in this browser unless you export, copy, print, submit, or share it. The Canvas Summary is selected academic text, not the full private workbook.';
+  }
+  if(save) saveWorkbook(false);
+}
+
+function wireCaseRouteSelector(){
+  document.querySelectorAll('input[name="ch5CaseRoute"]').forEach(input => {
+    input.addEventListener('change', () => syncCaseRouteUi(true));
+  });
+  const geoButton = document.getElementById('ch5-use-geo-public-case');
+  if(geoButton) geoButton.addEventListener('click', applyGeoFloridaPublicCasePrefill);
+  syncCaseRouteUi(false);
+}
+
+function applyGeoFloridaPublicCasePrefill(){
+  setSelectedCaseRoute('geo_florida_public_case');
+  setFieldValue('arrangement', 'GEO Florida / private correctional facility governance structure');
+  setFieldValue('affected', 'Incarcerated people, correctional staff, program counselors, families, nearby communities, public agencies, and taxpayers.');
+  setFieldValue('officialPurpose', 'Correctional operation, safety, custody, rehabilitation, contract fulfillment, and public service.');
+  setFieldValue('surfaceSuccess', 'Facilities operate; people are housed; contracts are fulfilled; compliance or accreditation may remain visible at the formal level.');
+  setFieldValue('dominantFear', 'Mixed or unclear');
+  setFieldValue('fearExplanation', 'Mixed design fears: Hobbesian fear of disorder and instability, Lockean emphasis on contract/authority, and Rousseauian concern about domination or corruption.');
+  setFieldValue('rawlsFlag', '3');
+  setFieldValue('leastAdvantaged', 'People inside the captive-population structure with the least safe access to correction, exit, public voice, or institutional repair.');
+  setFieldValue('rawlsBias', 'From behind the veil, the arrangement must be judged from the standpoint of those with the least exit, voice, and correction access, not only from the standpoint of contract administrators or external observers.');
+  setFieldValue('nozickFlag', '2');
+  setFieldValue('entitlementHistory', 'Use public case evidence only: ownership, contract, debt, per-diem, accreditation, programming, staffing, and repair-access structures.');
+  setFieldValue('patternBlindness', 'A transaction-by-transaction view may miss how formally valid contracts can create cumulative capability loss or blocked correction for people governed by the arrangement.');
+  setFieldValue('primaryCapabilityGap', 'Practical reason, bodily integrity, affiliation, and control over environment are likely central capabilities to examine.');
+  setFieldValue('careWho', 'Frontline staff, incarcerated people, families, program counselors, nearby communities, and public agencies may carry hidden burdens of formal stability.');
+  setFieldValue('careCost', 'Possible costs include exhaustion, suppressed voice, reduced care continuity, weakened rehabilitation capacity, family burden, and public accountability burden.');
+  setFieldValue('careFlag', '2');
+  setFieldValue('sharedTask', 'Build measurable, low-extraction rehabilitation and public-safety capacity that different communities can support for different authentic reasons.');
+  setFieldValue('authenticReasons', 'Public safety, human dignity, fiscal accountability, worker stability, family/community wellbeing, legal legitimacy, and reduced recidivism may support the same shared task for different reasons.');
+  setFieldValue('auditableOutput', 'Reduced extraction pressure; improved program access; lower turnover; safer correction channels; transparent public accountability; better capability-supporting conditions.');
+  setFieldValue('trustConditions', 'Public reporting, protected voice, independent monitoring, conflict-resolution channels, staff support, and transparent repair obligations.');
+  setFieldValue('formalDescription', 'Contract compliance, correctional operation, accreditation, facility status, per-diem accounting, or public-private governance documentation.');
+  setFieldValue('livedCounterevidence', 'Use public evidence only: signs of capability loss, invisible burden, blocked correction, turnover, program suppression, and mission-goal conflict.');
+  setFieldValue('formalFlag', '2');
+  setFieldValue('vetoFlag', '2');
+  setFieldValue('darkFlag', '2');
+  setFieldValue('carryingContradiction', 'Formal stability may depend on staff, incarcerated people, families, and communities absorbing contradiction that the official description does not fully register.');
+  setFieldValue('formalCoherence', '2');
+  setFieldValue('corrigibility', '1');
+  setFieldValue('t1Repair', 'Improve transparency, programming access, staff support, public reporting, and safe correction channels inside the current structure.');
+  setFieldValue('t2Repair', 'Change ownership, financing, metrics, accountability, and governance conditions so capability repair is not subordinate to extraction pressure.');
+  setFieldValue('coolingInfrastructure', 'Independent oversight, protected reporting, recovery time, conflict-resolution systems, staff stabilization, public memory, and non-punitive repair processes.');
+  setFieldValue('finalJudgment', 'The central question is whether a formally operating institution can appear coherent while suppressing actual capability, hiding care burdens, and blocking correction.');
+  setFieldValue('nextMove', 'Name one condition-level repair that would make correction safer and capability more real.');
+  updateDiagnostic();
+  saveWorkbook(false);
+  setStatus('GEO Florida public case prefill applied');
+}
+
+function normalizeFear(value){
+  if(!value) return '';
+  if(value.includes('Hobbesian')) return 'hobbesian_disorder_or_instability';
+  if(value.includes('Lockean')) return 'lockean_arbitrary_power_or_rights_violation';
+  if(value.includes('Rousseauian')) return 'rousseauian_corruption_inequality_or_domination';
+  return 'mixed_or_unclear';
+}
+function normalizeRawls(v){ return ({'0':'would_choose','1':'maybe','2':'probably_not','3':'would_not_choose'}[String(v)] || ''); }
+function normalizeNozick(v){ return ({'0':'mostly_legitimate','1':'mixed','2':'troubling','3':'deeply_compromised'}[String(v)] || ''); }
+function normalizeCare(v){ return ({'0':'recognized_supported','1':'partly_recognized','2':'mostly_invisible_or_under_supported','3':'systematically_exploited'}[String(v)] || ''); }
+function normalizeFormal(v){ return ({'0':'no_person_sensitive','1':'some_simplification_corrigible','2':'yes_overrides_lived_reality','3':'severe_person_as_metric'}[String(v)] || ''); }
+function normalizeVeto(v){ return ({'0':'available','1':'partly_available','2':'mostly_blocked','3':'absent'}[String(v)] || ''); }
+function normalizeDark(v){ return ({'0':'low','1':'moderate','2':'high','3':'severe'}[String(v)] || ''); }
+function normalizeCoherence(v){ return ({'0':'low','1':'partial','2':'moderate','3':'high'}[String(v)] || ''); }
+function normalizeCorrigibility(v){ return ({'3':'high','2':'moderate','1':'low','0':'absent'}[String(v)] || ''); }
+
+function buildSynthesisSummary(){
+  const route = selectedCaseRoute();
+  const caseLabel = caseRouteLabel(route);
+  const capGap = getFieldValue('primaryCapabilityGap') || 'not yet named';
+  const veil = normalizeRawls(getFieldValue('rawlsFlag')) || 'not yet selected';
+  const veto = normalizeVeto(getFieldValue('vetoFlag')) || 'not yet selected';
+  const repair = normalizeCorrigibility(getFieldValue('corrigibility')) || 'not yet selected';
+  const t2 = getFieldValue('t2Repair') || 'not yet named';
+  return `I examined ${caseLabel} using Chapter 5's diagnostic toolkit. From behind the veil, the result was: ${veil}. The most important capability gap was: ${capGap}. The formal-domination audit found correction/veto access: ${veto}. The AMC repair audit found structural corrigibility: ${repair}. The most important condition-level repair is: ${t2}.`;
+}
+
+function oneSentenceJournalPrompt(){
+  return "Where did a formal rule, role, metric, or description replace someone's lived reality, and what would safe correction require?";
+}
+
+function engagementMetadata(){
+  const fields = qsa('[data-field]');
+  const withText = fields.filter(el => el.type === 'checkbox' ? el.checked : String(el.value || '').trim()).length;
+  const text = fields.map(el => el.type === 'checkbox' ? '' : String(el.value || '')).join(' ').trim();
+  const wc = text ? text.split(/\s+/).length : 0;
+  return {
+    sections_started: fields.length,
+    sections_with_text: withText,
+    estimated_word_count: wc,
+    private_content_included: true,
+    canvas_summary_is_selected: true,
+    student_generated_export: true,
+    local_only: true
+  };
+}
 
 function renderCapabilities(){
   const rows = CAPABILITIES.map((cap, i) => `
@@ -409,6 +648,7 @@ function collectData(){
     if(el.type === 'checkbox') data[el.dataset.field] = el.checked;
     else data[el.dataset.field] = el.value;
   });
+  data.ch5CaseRoute = selectedCaseRoute();
   return data;
 }
 
@@ -419,16 +659,17 @@ function applyData(data){
     if(el.type === 'checkbox') el.checked = !!data[key];
     else el.value = data[key];
   });
+  if(data.ch5CaseRoute) setSelectedCaseRoute(data.ch5CaseRoute);
   updateDiagnostic();
 }
 
-function saveWorkbook(){
+function saveWorkbook(showStatus=true){
   localStorage.setItem(STORAGE_KEY, JSON.stringify(collectData()));
-  setStatus('Saved locally ' + new Date().toLocaleTimeString());
+  if(showStatus) setStatus('Saved locally ' + new Date().toLocaleTimeString());
 }
 
 function loadWorkbook(){
-  const raw = localStorage.getItem(STORAGE_KEY);
+  const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_STORAGE_KEY);
   if(!raw){ setStatus('No saved workbook found'); return; }
   try{
     applyData(JSON.parse(raw));
@@ -498,22 +739,93 @@ function updateDiagnostic(){
 
 function buildExport(){
   const data = collectData();
+  const now = new Date().toISOString();
+  const route = selectedCaseRoute();
+  const caps = capabilitySummary();
+  const canvas = canvasSummary();
   return {
     ebb_export_type: 'chapter_workbook',
-    schema_version: 'EBB-Fall-2026-v1.3',
+    ebbChapterWorkbook: true,
+    schema_version: CH5_NAV_SCHEMA_VERSION,
+    source_app: CH5_SOURCE_APP,
     chapter: '5',
-    chapter_title: 'Social Contract, Justice, and the Moral Commons',
-    source_app: 'CH5-1_Formal_Domination_Audit_Lab',
-    created_at: new Date().toISOString(),
+    chapter_title: 'Chapter 5 — Social Contract, Justice, and the Moral Commons',
+    chapter_entry_key: CH5_CHAPTER_ENTRY_KEY,
+    export_id: `${CH5_SOURCE_APP}-${now.replace(/[:.]/g, '-')}`,
+    created_at: now,
+    updated_at: now,
+    student_control_notice: 'This file was generated locally in your browser. Nothing was uploaded or sent automatically.',
     canvas_summary_available: true,
     payload: {
-      setup: {
-        arrangement: data.arrangement || '',
-        affected: data.affected || '',
-        officialPurpose: data.officialPurpose || '',
-        surfaceSuccess: data.surfaceSuccess || ''
+      reflection_prep: {
+        synthesis_summary: buildSynthesisSummary(),
+        canvas_copy: canvas,
+        one_sentence_journal_prompt: oneSentenceJournalPrompt(),
+        carry_forward: data.nextMove || data.finalJudgment || ''
       },
-      criticalThinkingMiniLab: {
+      chapter_specific: {
+        case_route: route,
+        case_label: caseRouteLabel(route),
+        public_case_used: publicCaseUsed(route),
+        setup: {
+          arrangement: data.arrangement || '',
+          affected: data.affected || '',
+          official_claim: data.officialPurpose || '',
+          visible_success: data.surfaceSuccess || ''
+        },
+        classical_fear: {
+          primary_fear: normalizeFear(data.dominantFear || ''),
+          selected_text: data.dominantFear || '',
+          explanation: data.fearExplanation || ''
+        },
+        rawls: {
+          veil_judgment: normalizeRawls(data.rawlsFlag || ''),
+          least_advantaged_position: data.leastAdvantaged || '',
+          bias_revealed: data.rawlsBias || ''
+        },
+        nozick: {
+          process_legitimacy: normalizeNozick(data.nozickFlag || ''),
+          entitlement_history: data.entitlementHistory || '',
+          pattern_blindness_note: data.patternBlindness || ''
+        },
+        capabilities: {
+          constrained_or_absent: caps.length,
+          constrained_details: caps,
+          most_important_gap: data.primaryCapabilityGap || ''
+        },
+        care: {
+          invisible_labor_status: normalizeCare(data.careFlag || ''),
+          who_carries_the_system: data.careWho || '',
+          cost_to_carriers: data.careCost || ''
+        },
+        functional_equivalence: {
+          shared_task: data.sharedTask || '',
+          different_authentic_reasons: data.authenticReasons || '',
+          auditable_output: data.auditableOutput || '',
+          trust_conditions: data.trustConditions || ''
+        },
+        formal_domination: {
+          formal_description: data.formalDescription || '',
+          lived_counterevidence: data.livedCounterevidence || '',
+          metric_replaces_person: normalizeFormal(data.formalFlag || ''),
+          phenomenological_veto_available: normalizeVeto(data.vetoFlag || ''),
+          dark_coherence_level: normalizeDark(data.darkFlag || ''),
+          contradiction_carrier: data.carryingContradiction || ''
+        },
+        amc: {
+          formal_coherence: normalizeCoherence(data.formalCoherence || ''),
+          structural_corrigibility: normalizeCorrigibility(data.corrigibility || ''),
+          t1_repair: data.t1Repair || '',
+          t2_repair: data.t2Repair || '',
+          recovery_infrastructure: data.coolingInfrastructure || ''
+        },
+        synthesis: {
+          final_judgment: data.finalJudgment || '',
+          agency_preserving_next_move: data.nextMove || '',
+          diagnostic: (qs('#diagnosticOutput') && qs('#diagnosticOutput').textContent) || ''
+        }
+      },
+      critical_thinking: {
         claim: data.ctClaim || '',
         reason: data.ctReason || '',
         evidence: data.ctEvidence || '',
@@ -522,56 +834,15 @@ function buildExport(){
         objection: data.ctObjection || '',
         revision: data.ctRevision || ''
       },
-      socialContractFear: {
-        dominantFear: data.dominantFear || '',
-        explanation: data.fearExplanation || ''
-      },
-      rawlsAudit: {
-        veilFlag: data.rawlsFlag || '',
-        leastAdvantaged: data.leastAdvantaged || '',
-        bias: data.rawlsBias || ''
-      },
-      entitlementHistoryAudit: {
-        legitimacyFlag: data.nozickFlag || '',
-        history: data.entitlementHistory || '',
-        patternBlindness: data.patternBlindness || ''
-      },
-      capabilitiesAudit: {
-        constrainedCapabilities: capabilitySummary(),
-        primaryGap: data.primaryCapabilityGap || ''
-      },
-      careAudit: {
-        whoCarries: data.careWho || '',
-        cost: data.careCost || '',
-        recognitionFlag: data.careFlag || ''
-      },
-      functionalEquivalence: {
-        sharedTask: data.sharedTask || '',
-        authenticReasons: data.authenticReasons || '',
-        auditableOutput: data.auditableOutput || '',
-        trustConditions: data.trustConditions || ''
-      },
-      formalDominationAudit: {
-        formalDescription: data.formalDescription || '',
-        livedCounterevidence: data.livedCounterevidence || '',
-        formalFlag: data.formalFlag || '',
-        vetoFlag: data.vetoFlag || '',
-        darkFlag: data.darkFlag || '',
-        carryingContradiction: data.carryingContradiction || ''
-      },
-      amcRepairAudit: {
-        formalCoherence: data.formalCoherence || '',
-        structuralCorrigibility: data.corrigibility || '',
-        t1Repair: data.t1Repair || '',
-        t2Repair: data.t2Repair || '',
-        coolingInfrastructure: data.coolingInfrastructure || ''
-      },
-      synthesis: {
-        finalJudgment: data.finalJudgment || '',
-        nextMove: data.nextMove || '',
-        diagnostic: qs('#diagnosticOutput').textContent || ''
+      guided_practice: {},
+      mccts: {},
+      engagement_receipt: {
+        created_at: now,
+        local_only: true,
+        canvas_summary_is_selected: true
       }
-    }
+    },
+    engagement_metadata: engagementMetadata()
   };
 }
 
@@ -580,31 +851,37 @@ function downloadJSON(){
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   const stamp = new Date().toISOString().slice(0,10);
-  a.download = `EBB_CH5_Formal_Domination_Audit_${stamp}.json`;
+  a.download = `CH5_Formal_Domination_Audit_Navigator_${stamp}.json`;
   a.click();
   URL.revokeObjectURL(a.href);
-  setStatus('JSON exported');
+  setStatus('Navigator JSON exported');
 }
 
 function canvasSummary(){
   const data = collectData();
+  const route = selectedCaseRoute();
   const caps = capabilitySummary().map(c => c.capability).join('; ') || 'No capability gaps selected yet';
-  return `EBB Chapter 5 — Formal Domination Audit Summary
+  return `Chapter 5 Formal Domination Audit Summary
 
-Arrangement examined:
-${data.arrangement || ''}
+Case route:
+${route}
+
+Institution or arrangement examined:
+${caseRouteLabel(route)}
 
 Who is affected:
 ${data.affected || ''}
 
-Critical thinking claim:
-${data.ctClaim || ''}
+Primary design fear:
+${data.dominantFear || ''}
 
-Rawlsian veil finding:
+Rawlsian veil result:
+${normalizeRawls(data.rawlsFlag || '')}
 Least advantaged: ${data.leastAdvantaged || ''}
 Hidden bias: ${data.rawlsBias || ''}
 
 Entitlement / history finding:
+${normalizeNozick(data.nozickFlag || '')}
 ${data.entitlementHistory || ''}
 Pattern blindness: ${data.patternBlindness || ''}
 
@@ -613,6 +890,7 @@ ${caps}
 Primary gap: ${data.primaryCapabilityGap || ''}
 
 Care ethics finding:
+Invisible labor status: ${normalizeCare(data.careFlag || '')}
 Who carries the system: ${data.careWho || ''}
 Cost: ${data.careCost || ''}
 
@@ -623,12 +901,15 @@ Auditable output: ${data.auditableOutput || ''}
 Formal domination / dark coherence finding:
 Formal description: ${data.formalDescription || ''}
 Lived counterevidence: ${data.livedCounterevidence || ''}
+Correction/veto access: ${normalizeVeto(data.vetoFlag || '')}
+Dark coherence level: ${normalizeDark(data.darkFlag || '')}
 Carrying the contradiction: ${data.carryingContradiction || ''}
 
 AMC repair:
+Structural corrigibility: ${normalizeCorrigibility(data.corrigibility || '')}
 T1 repair: ${data.t1Repair || ''}
 T2 repair: ${data.t2Repair || ''}
-Cooling infrastructure: ${data.coolingInfrastructure || ''}
+Cooling / recovery infrastructure: ${data.coolingInfrastructure || ''}
 
 Final judgment:
 ${data.finalJudgment || ''}
@@ -637,7 +918,10 @@ Agency-preserving next move:
 ${data.nextMove || ''}
 
 Diagnostic note:
-${qs('#diagnosticOutput').textContent || ''}`;
+${qs('#diagnosticOutput').textContent || ''}
+
+Privacy note:
+This summary is a selected academic summary, not my full private workbook.`;
 }
 
 function copyCanvasSummary(){
@@ -652,12 +936,23 @@ function copyCanvasSummary(){
 document.addEventListener('input', e => {
   if(e.target.matches('[data-field]')){
     updateDiagnostic();
+    saveWorkbook(false);
+  }
+});
+
+document.addEventListener('change', e => {
+  if(e.target.matches('[data-field], input[name="ch5CaseRoute"]')){
+    updateDiagnostic();
+    saveWorkbook(false);
   }
 });
 
 renderCapabilities();
+wireCaseRouteSelector();
 loadWorkbook();
 updateDiagnostic();
 </script>
+
+<!-- CH5-ECO-2 Fall 2026 route selector + Navigator export patch applied -->
 </body>
 </html>
