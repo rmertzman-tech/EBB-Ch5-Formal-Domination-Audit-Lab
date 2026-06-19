@@ -757,6 +757,12 @@ function buildExport(){
     student_control_notice: 'This file was generated locally in your browser. Nothing was uploaded or sent automatically.',
     canvas_summary_available: true,
     payload: {
+      prf: {},
+      sage: {},
+      fields: [],
+      threads: [],
+      biobond: {},
+      document_capsules: [],
       reflection_prep: {
         synthesis_summary: buildSynthesisSummary(),
         canvas_copy: canvas,
@@ -833,6 +839,11 @@ function buildExport(){
         alternative: data.ctAlternative || '',
         objection: data.ctObjection || '',
         revision: data.ctRevision || ''
+      },
+      navigator_fields: {},
+      public_reasoning_bridge: {
+        public_takeaway: data.finalJudgment || '',
+        discussion_question: ''
       },
       guided_practice: {},
       mccts: {},
